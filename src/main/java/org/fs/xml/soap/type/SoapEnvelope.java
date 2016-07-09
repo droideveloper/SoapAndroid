@@ -36,4 +36,8 @@ public final class SoapEnvelope {
         this.b = b;
         return this;
     }
+
+    public String getSoapAction() {
+        return soapAction;
+    }
 }

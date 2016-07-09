@@ -20,8 +20,7 @@ public abstract class BaseNodeXMLParser<T> implements NodeXMLReader<XmlPullParse
             if (event == XmlPullParser.TEXT) {
                 String text = reader.getText();
                 value = toReferenceType(text);
-            }
-            if (event == XmlPullParser.END_TAG) {
+            } else if (event == XmlPullParser.END_TAG) {
                 reader.next();//WHITESPACE_TEXT
                 reader.next();//START_TAG
                 break;

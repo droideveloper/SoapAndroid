@@ -247,4 +247,8 @@ public final class ReferenceUtility {
             }
         });
     }
+
+    private ReferenceUtility() {
+       throw new IllegalArgumentException("no sugar for ya");
+    }
 }

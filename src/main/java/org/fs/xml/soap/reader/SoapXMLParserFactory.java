@@ -80,6 +80,10 @@ public final class SoapXMLParserFactory {
         this.collectionNodeName = typeName;
     }
 
+    public void registerNamespace(String prefix, String namespace) {
+        registeredNamespaces.put(prefix, namespace);
+    }
+
     public String getCollectionNodeName() {
         return collectionNodeName;
     }
