@@ -25,6 +25,7 @@ public final class SoapResponseBodyConverter<T> implements Converter<ResponseBod
 
     @Override public T convert(ResponseBody value) throws IOException {
         try {
+            //we do not check if there is fault or not
             InputStream in = value.byteStream();
             Class<T> c = (Class<T>) type;
             return factory.deserialize(in, c, true);//we just read only for inside body do we need anything else ?

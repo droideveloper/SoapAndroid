@@ -139,11 +139,15 @@ public final class TypeNodeXMLParser implements NodeXMLReader<XmlPullParser, Nod
                                 throw new NullPointerException("impossible extension type node @{ " + node.name() + "\t" + classNode.getName() + " }");
                             }
                         } else {
-                            NodeTypeReference parsed = ReferenceUtility.toTypeReference(node);
-                            if (isWritePossible(parsed)) {
-                                write(writer, parsed);
-                            } else {
-                                throw new NullPointerException("impossible type node @{ " + node.name() + "\t" + classNode.getName() + " }");
+                            Object nodeValue = node.get();
+                            //if it's not null then we write it else just ignore
+                            if (ReferenceUtility.isNotNull(nodeValue)) {
+                                NodeTypeReference parsed = ReferenceUtility.toTypeReference(node);
+                                if (isWritePossible(parsed)) {
+                                    write(writer, parsed);
+                                } else {
+                                    throw new NullPointerException("impossible type node @{ " + node.name() + "\t" + classNode.getName() + " }");
+                                }
                             }
                         }
                     } else {

@@ -162,7 +162,7 @@ public final class SoapXMLParserFactory {
      * @param reader XmlPullParser instance
      * @throws Exception XmlPullParserException
      */
-    void nextTagBody(XmlPullParser reader) throws Exception {
+    public void nextTagBody(XmlPullParser reader) throws Exception {
         int event = reader.getEventType();
         //let's hit it like that
         while (event != XmlPullParser.END_DOCUMENT) {
