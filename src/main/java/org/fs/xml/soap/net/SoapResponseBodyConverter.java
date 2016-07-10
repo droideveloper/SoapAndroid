@@ -27,7 +27,7 @@ public final class SoapResponseBodyConverter<T> implements Converter<ResponseBod
         try {
             InputStream in = value.byteStream();
             Class<T> c = (Class<T>) type;
-            return factory.deserialize(in, c, false);
+            return factory.deserialize(in, c, true);//we just read only for inside body do we need anything else ?
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

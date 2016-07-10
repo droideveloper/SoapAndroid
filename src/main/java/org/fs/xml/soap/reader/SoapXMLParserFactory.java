@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -136,7 +137,23 @@ public final class SoapXMLParserFactory {
             reader.read(deserializer, ref);
             return ReferenceUtility.castAs(ref.get(), clazz);
         } else {
-            throw new IllegalArgumentException("impossible type @{ " + clazz.getName() + " }");
+            //try to read all whatever left
+            StringBuilder error = new StringBuilder();
+            int event = deserializer.getEventType();
+            while(event != XmlPullParser.END_DOCUMENT) {
+                if (event == XmlPullParser.START_TAG) {
+                    error.append(String.format(Locale.US, "<%s>", deserializer.getName()));
+                    error.append("\n");
+                } else if (event == XmlPullParser.TEXT) {
+                    error.append(deserializer.getText());
+                    error.append("\n");
+                } else if (event == XmlPullParser.END_TAG) {
+                    error.append(String.format(Locale.US, "</%s>", deserializer.getName()));
+                    error.append("\n");
+                }
+                event = deserializer.next();
+            }
+            throw new IllegalArgumentException("impossible type @{ " + clazz.getName() + " }\n" + error.toString());
         }
     }
 
