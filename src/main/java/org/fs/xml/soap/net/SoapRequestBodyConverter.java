@@ -6,6 +6,7 @@ import org.fs.xml.soap.type.SoapEnvelope;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -65,7 +66,7 @@ public final class SoapRequestBodyConverter<T> implements Converter<T, RequestBo
         @Override public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             request = request.newBuilder()
-                             .addHeader(HEADER_SOAP_ACTION, soapAction)
+                             .addHeader(HEADER_SOAP_ACTION, String.format(Locale.US, "\"%s\"", soapAction))//bug fix
                              .build();
             return chain.proceed(request);
         }
