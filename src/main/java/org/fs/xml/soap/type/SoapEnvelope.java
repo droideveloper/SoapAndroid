@@ -20,6 +20,8 @@ public final class SoapEnvelope {
     @Ignore
     private String soapAction;
 
+    public SoapEnvelope() { }
+
     public SoapEnvelope(String soapAction) {
         this.soapAction = soapAction;
         if (TextUtils.isEmpty(soapAction)) {

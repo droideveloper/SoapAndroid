@@ -13,7 +13,8 @@ public final class SoapBody {
 
     private Object o;
 
-    public SoapBody(Object o) {
+    public SoapBody() { }
+    public <T> SoapBody(T o) {
         this.o = o;
     }
 }

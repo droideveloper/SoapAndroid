@@ -177,6 +177,9 @@ public final class ReferenceUtility {
         return newRef;
     }
 
+    //TODO -> there is a case where if we do not catch the value for ourselves
+    //TODO -> since that occurs we need to check for read or write of other values.
+
     private static void loadChildrenIfNecessary(NodeTypeReference ref) throws Exception {
         Class<?> classRef = castAs(ref.type());
         //get target

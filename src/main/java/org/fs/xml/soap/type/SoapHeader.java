@@ -13,7 +13,8 @@ public final class SoapHeader {
 
     public Object o;
 
-    public SoapHeader(Object o) {
+    public SoapHeader() { }
+    public <T> SoapHeader(T o) {
         this.o = o;
     }
 }

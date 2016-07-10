@@ -27,6 +27,9 @@ public final class SoapXMLParserFactory {
     private final static String UTF_8 = "UTF-8";
 
     private final static String PREFIX_SOAP        = "soap";
+    private final static String PREFIX_ENC         = "enc";
+
+    public  final static String NAMESPACE_ENC      = "http://schemas.xmlsoap.org/soap/encoding/";
     public  final static String NAMESPACE_SOAP     = "http://schemas.xmlsoap.org/soap/envelope/";
 
     private final static String SOAP_BODY          = "body";
@@ -54,6 +57,7 @@ public final class SoapXMLParserFactory {
         //defaults
         registeredNamespaces = new HashMap<>();
         registeredNamespaces.put(PREFIX_SOAP, NAMESPACE_SOAP);
+        registeredNamespaces.put(PREFIX_ENC, NAMESPACE_ENC);
         registeredNamespaces.put(ReferenceUtility.PREFIX_XS,  ReferenceUtility.NAMESPACE_XS);
         registeredNamespaces.put(ReferenceUtility.PREFIX_XSI, ReferenceUtility.NAMESPACE_XSI);
         //defaults
@@ -148,6 +152,8 @@ public final class SoapXMLParserFactory {
             if (event == XmlPullParser.START_TAG) {
                 final String nodeName = reader.getName();
                 if (SOAP_BODY.equalsIgnoreCase(nodeName)) {
+                    reader.next();//TEXT AS WHITESPACE
+                    reader.next();//START_TAG of Next
                     break;
                 }
             }
