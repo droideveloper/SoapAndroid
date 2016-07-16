@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 Fatih.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.fs.xml.soap.reflection.type;
 
 import org.fs.xml.soap.reflection.Reference;
@@ -12,84 +27,80 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Fatih on 01/07/16.
- * as org.fs.xml.soap.reflection.type.TypeReference
- */
 public abstract class TypeReference<A extends Annotation> extends Reference<Class<?>, A> {
 
-    protected List<FieldReference<?>> attrChildren;
-    protected List<FieldReference<?>> nodeChildren;
+  protected List<FieldReference<?>> attrChildren;
+  protected List<FieldReference<?>> nodeChildren;
 
-    public void addChild(FieldReference<?> child) {
-        if (child instanceof AttributeFieldReference) {
-            if (attrChildren == null) {
-                attrChildren = new ArrayList<>();
-            }
-            attrChildren.add(child);
-        } else if (child instanceof NodeFieldReference) {
-            if (nodeChildren == null) {
-                nodeChildren = new ArrayList<>();
-            }
-            nodeChildren.add(child);
-        }
+  public void addChild(FieldReference<?> child) {
+    if (child instanceof AttributeFieldReference) {
+      if (attrChildren == null) {
+        attrChildren = new ArrayList<>();
+      }
+      attrChildren.add(child);
+    } else if (child instanceof NodeFieldReference) {
+      if (nodeChildren == null) {
+        nodeChildren = new ArrayList<>();
+      }
+      nodeChildren.add(child);
     }
+  }
 
-    public int attrChildrenSize() {
-        return attrChildren != null && !attrChildren.isEmpty() ? attrChildren.size() : 0;
-    }
+  public int attrChildrenSize() {
+    return attrChildren != null && !attrChildren.isEmpty() ? attrChildren.size() : 0;
+  }
 
-    public int nodeChildrenSize() {
-        return nodeChildren != null && !nodeChildren.isEmpty() ? nodeChildren.size() : 0;
-    }
+  public int nodeChildrenSize() {
+    return nodeChildren != null && !nodeChildren.isEmpty() ? nodeChildren.size() : 0;
+  }
 
-    public FieldReference<?> attrChildrenAt(int index) {
-        if (index >= 0 || index < attrChildrenSize()) {
-            return attrChildren.get(index);
-        }
-        return null;
+  public FieldReference<?> attrChildrenAt(int index) {
+    if (index >= 0 || index < attrChildrenSize()) {
+      return attrChildren.get(index);
     }
+    return null;
+  }
 
-    public FieldReference<?> nodeChildrenAt(int index) {
-        if (index >= 0 || index < nodeChildrenSize()) {
-            return nodeChildren.get(index);
-        }
-        return null;
+  public FieldReference<?> nodeChildrenAt(int index) {
+    if (index >= 0 || index < nodeChildrenSize()) {
+      return nodeChildren.get(index);
     }
+    return null;
+  }
 
-    public FieldReference<?> nodeChildrenReader(XmlPullParser reader) throws Exception {
-        for (int i = 0; i < nodeChildrenSize(); i++) {
-            FieldReference<?> child = nodeChildrenAt(i);
-            if (child.name().equalsIgnoreCase(reader.getName())) {
-                nodeChildren.remove(child);
-                return child;
-            }
-        }
-        return null;
+  public FieldReference<?> nodeChildrenReader(XmlPullParser reader) throws Exception {
+    for (int i = 0; i < nodeChildrenSize(); i++) {
+      FieldReference<?> child = nodeChildrenAt(i);
+      if (child.name().equalsIgnoreCase(reader.getName())) {
+        nodeChildren.remove(child);
+        return child;
+      }
     }
+    return null;
+  }
 
-    @Override public boolean hasAnyChildren() {
-        return hasAttrChildren() || hasNodeChildren();
-    }
+  @Override public boolean hasAnyChildren() {
+    return hasAttrChildren() || hasNodeChildren();
+  }
 
-    @Override public boolean hasAttrChildren() {
-        return attrChildrenSize() > 0;
-    }
+  @Override public boolean hasAttrChildren() {
+    return attrChildrenSize() > 0;
+  }
 
-    @Override public boolean hasNodeChildren() {
-        return nodeChildrenSize() > 0;
-    }
+  @Override public boolean hasNodeChildren() {
+    return nodeChildrenSize() > 0;
+  }
 
-    @Override public Type type() throws Exception {
-        Object instance = get();
-        return ReferenceUtility.isNotNull(instance) ? instance.getClass() : this.reference;
-    }
+  @Override public Type type() throws Exception {
+    Object instance = get();
+    return ReferenceUtility.isNotNull(instance) ? instance.getClass() : this.reference;
+  }
 
-    @Override public void set(Object value) throws Exception {
-        this.target = value;
-    }
+  @Override public void set(Object value) throws Exception {
+    this.target = value;
+  }
 
-    @Override public Object get() throws Exception {
-        return this.target;
-    }
+  @Override public Object get() throws Exception {
+    return this.target;
+  }
 }
